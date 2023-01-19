@@ -20,7 +20,7 @@ class JobFactory extends Factory
     {
         return [
             'title' => fake()->jobTitle,
-            'description' => fake()->paragraph(5),
+            'description' => fake()->paragraph(100),
             'min_price' => fake()->randomFloat(2, 0, 100),
             'max_price' => fake()->randomFloat(2, 100, 200),
             'type' => fake()->randomElement(['fixed_price', 'hourly']),
