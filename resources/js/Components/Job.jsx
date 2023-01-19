@@ -60,7 +60,7 @@ export default function Job({ job }) {
                                 {truncateDescrition ? "More" : "Less"}
                             </span>}
 
-                        <div className='flex mt-4'>
+                        <div className='mt-4'>
                             {job.skills.map((skill) => {
                                 return <SkillBadge key={skill.id} skill={skill} />
                             })}

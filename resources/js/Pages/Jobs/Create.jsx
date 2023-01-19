@@ -142,7 +142,7 @@ export default function Create({ skills, auth, errors: auth_errors }) {
                                         }
                                     </div>
 
-                                    <div className='flex mt-4'>
+                                    <div className='mt-4'>
                                         {data.skills.map(skill_id => {
                                             const skill = skills.find(s => s.id == skill_id);
                                             return <SkillBadge key={skill.id} skill={skill} onClick={(e) => removeSkill(skill)} />

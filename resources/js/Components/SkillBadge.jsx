@@ -7,7 +7,9 @@ export default function SkillBadge({ skill, onClick }) {
             className='
                 bg-transparent
                 p-2
-                mx-1
+                ml-2
+                mt-2
+                inline-block
                 font-semibold
                 text-indigo-800
                 border-indigo-800 border-2
