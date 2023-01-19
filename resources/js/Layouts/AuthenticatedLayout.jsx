@@ -27,6 +27,9 @@ export default function Authenticated({ auth, header, children }) {
                                 <NavLink href={route('jobs.index')} active={route().current('jobs.index')}>
                                     Find Jobs
                                 </NavLink>
+                                <NavLink href={route('jobs.create')} active={route().current('jobs.create')}>
+                                    Create Job
+                                </NavLink>
                             </div>
                         </div>
 
@@ -100,6 +103,9 @@ export default function Authenticated({ auth, header, children }) {
                         </ResponsiveNavLink>
                         <ResponsiveNavLink href={route('jobs.index')} active={route().current('jobs.index')}>
                             Find Jobs
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink href={route('jobs.create')} active={route().current('jobs.create')}>
+                            Create Job
                         </ResponsiveNavLink>
                     </div>
 
