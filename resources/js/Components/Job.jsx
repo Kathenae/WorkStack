@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from 'dayjs/plugin/relativeTime';
+import SkillBadge from "./SkillBadge";
 
 dayjs.extend(relativeTime)
 
@@ -61,7 +62,7 @@ export default function Job({ job }) {
 
                         <div className='flex mt-4'>
                             {job.skills.map((skill) => {
-                                return <a id={skill.id} key={skill.id} href='/skills/frontend' className='bg-transparent p-2 mx-1 font-semibold text-indigo-800 border-indigo-800 border-2 hover:text-indigo-500 cursor-pointer rounded-xl'>{skill.name}</a>
+                                return <SkillBadge key={skill.id} skill={skill} />
                             })}
                         </div>
                     </div>

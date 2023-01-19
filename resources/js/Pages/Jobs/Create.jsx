@@ -5,6 +5,8 @@ import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
+import { useState } from 'react';
+import SkillBadge from '@/Components/SkillBadge';
 
 export default function Create({ skills, auth, errors: auth_errors }) {
 
@@ -18,16 +20,30 @@ export default function Create({ skills, auth, errors: auth_errors }) {
         'skills': [],
     });
 
+    const [skillName, setSkillName] = useState('')
+
     const submit = (e) => {
         e.preventDefault();
-        console.log(data);
         post(route('jobs.store'), { onSuccess: () => reset() });
     }
 
     const selectSkills = (e) => {
-        let skills = [...e.target.options].filter(o => o.selected).map((o) => o.value)
-        setData('skills', skills);
+        const selectedSkill = e.target.options[e.target.selectedIndex].value
+
+        if (data.skills.find(s => s == selectedSkill)) {
+            return;
+        }
+
+        const newSkills = [selectedSkill, ...data.skills];
+        setData('skills', newSkills);
+        setSkillName('');
     }
+
+    const removeSkill = (skill) => {
+        const newSkills = data.skills.filter(s => s != skill.id)
+        setData('skills', newSkills)
+    }
+
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -105,11 +121,34 @@ export default function Create({ skills, auth, errors: auth_errors }) {
 
                                 <div className="my-6">
                                     <InputLabel forInput="">Skills</InputLabel>
-                                    <select multiple onChange={selectSkills} className="block mr-4 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                                        {skills.map((skill) => (
-                                            <option key={skill.id} value={skill.id}>{skill.name}</option>
-                                        ))}
-                                    </select>
+                                    <div className='relative'>
+                                        <input
+                                            type='text'
+                                            value={skillName}
+                                            onChange={e => setSkillName(e.target.value)}
+                                            placeholder="What skills are you looking for?"
+                                            className='block mr-4 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm'
+                                        />
+                                        {skillName.length > 0 &&
+                                            <select
+                                                multiple
+                                                onChange={selectSkills}
+                                                className="block mr-4 absolute bottom-10 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                            >
+                                                {skills.filter(s => s.name.toLowerCase().includes(skillName.toLowerCase())).map((skill) => (
+                                                    <option key={skill.id} value={skill.id}>{skill.name}</option>
+                                                ))}
+                                            </select>
+                                        }
+                                    </div>
+
+                                    <div className='flex mt-4'>
+                                        {data.skills.map(skill_id => {
+                                            const skill = skills.find(s => s.id == skill_id);
+                                            return <SkillBadge key={skill.id} skill={skill} onClick={(e) => removeSkill(skill)} />
+                                        })}
+                                    </div>
+
                                 </div>
                                 <PrimaryButton className='mt-4' processing={processing}>Publish</PrimaryButton>
                             </form>
