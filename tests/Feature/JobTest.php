@@ -75,7 +75,7 @@ class JobTest extends TestCase
         $response = $this->actingAs($user)->post(route('jobs.store'), $new_job);
 
         $this->assertDatabaseCount('jobs', 1);
-        $response->assertRedirect('/jobs');
+        $response->assertRedirect(route('jobs.index'));
     }
 
     /**
@@ -122,7 +122,7 @@ class JobTest extends TestCase
             'title' => 'Updated Job Title',
             'description' => 'Updated Job Description',
         ]);
-        $response->assertOk();
+        $response->assertRedirect(route('jobs.index'));
     }
 
     /**
