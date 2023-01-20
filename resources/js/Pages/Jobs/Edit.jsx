@@ -4,7 +4,7 @@ import JobForm from '@/Components/JobForm';
 
 export default function Create({ skills, job, auth, errors: auth_errors }) {
 
-    const form = useForm(job);
+    const form = useForm({ ...job, skills: job.skills.map(s => s.id) });
 
     const submit = (e) => {
         e.preventDefault();

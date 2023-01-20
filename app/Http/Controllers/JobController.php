@@ -54,9 +54,7 @@ class JobController extends Controller
             'type' => 'required|in:hourly,fixed_price'
         ]);
 
-        $skills = array_map(function ($skill) {
-            return $skill['id'];
-        },  $request->input('skills'));
+        $skills = $request->input('skills');
 
         $validatedJob['status'] = 'open';
         $job = $request->user()->jobs()->make($validatedJob);
@@ -101,16 +99,14 @@ class JobController extends Controller
     {
 
         $validatedData = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:5000',
-            'min_price' => 'required|numeric|min:0',
-            'max_price' => 'required|numeric|min:0|gt:min_price',
-            'type' => 'required|in:hourly,fixed_price',
+            'title' => 'string|max:255',
+            'description' => 'string|max:5000',
+            'min_price' => 'numeric|min:0',
+            'max_price' => 'numeric|min:0|gt:min_price',
+            'type' => 'in:hourly,fixed_price',
         ]);
 
-        $skills = array_map(function ($skill) {
-            return $skill['id'];
-        },  $request->input('skills'));
+        $skills = $request->input('skills');
 
         $job->update($validatedData);
         $job->skills()->sync($skills);
