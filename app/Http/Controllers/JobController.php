@@ -54,12 +54,14 @@ class JobController extends Controller
             'type' => 'required|in:hourly,fixed_price'
         ]);
 
-        $skills = Skill::find($request->input('skills'));
+        $skills = array_map(function ($skill) {
+            return $skill['id'];
+        },  $request->input('skills'));
 
         $validatedJob['status'] = 'open';
         $job = $request->user()->jobs()->make($validatedJob);
         $job->save();
-        $job->skills()->saveMany($skills);
+        $job->skills()->sync($skills);
         return redirect(route('jobs.index'));
     }
 
@@ -82,7 +84,10 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
-        //
+        return Inertia::render('Jobs/Edit', [
+            'job' => $job->load('skills'),
+            'skills' => Skill::all(),
+        ]);
     }
 
     /**
@@ -94,7 +99,22 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
-        //
+
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:5000',
+            'min_price' => 'required|numeric|min:0',
+            'max_price' => 'required|numeric|min:0|gt:min_price',
+            'type' => 'required|in:hourly,fixed_price',
+        ]);
+
+        $skills = array_map(function ($skill) {
+            return $skill['id'];
+        },  $request->input('skills'));
+
+        $job->update($validatedData);
+        $job->skills()->sync($skills);
+        return redirect(route('jobs.index'));
     }
 
     /**

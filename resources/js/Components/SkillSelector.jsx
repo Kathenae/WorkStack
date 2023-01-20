@@ -6,7 +6,8 @@ export default function SkillSelector({ skills, form }) {
     const [skillName, setSkillName] = useState('')
 
     const selectSkills = (e) => {
-        const selectedSkill = e.target.options[e.target.selectedIndex].value
+        const skillId = e.target.options[e.target.selectedIndex].value
+        const selectedSkill = skills.find(s => s.id == skillId)
 
         if (data.skills.find(s => s == selectedSkill)) {
             return;
@@ -18,7 +19,7 @@ export default function SkillSelector({ skills, form }) {
     }
 
     const removeSkill = (skill) => {
-        const newSkills = data.skills.filter(s => s != skill.id)
+        const newSkills = data.skills.filter(s => s != skill)
         setData('skills', newSkills)
     }
 
@@ -46,8 +47,7 @@ export default function SkillSelector({ skills, form }) {
             </div>
 
             <div className='mt-4'>
-                {data.skills.map(skill_id => {
-                    const skill = skills.find(s => s.id == skill_id);
+                {data.skills.map(skill => {
                     return <SkillBadge key={skill.id} skill={skill} onClick={(e) => removeSkill(skill)} />
                 })}
             </div>
