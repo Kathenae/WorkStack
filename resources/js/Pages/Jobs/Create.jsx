@@ -16,7 +16,7 @@ export default function Create({ skills, auth, errors: auth_errors }) {
 
     const submit = (e) => {
         e.preventDefault();
-        form.post(route('jobs.store'), { onSuccess: () => reset() });
+        form.post(route('jobs.store'), { onSuccess: () => form.reset() });
     }
 
     return (
