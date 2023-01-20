@@ -145,6 +145,6 @@ class JobTest extends TestCase
 
         // Check if we deleted the job
         $this->assertDatabaseEmpty('jobs');
-        $response->assertOk();
+        $response->assertRedirect(route('jobs.index'));
     }
 }
