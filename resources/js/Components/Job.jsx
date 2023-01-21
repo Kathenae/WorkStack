@@ -13,7 +13,7 @@ dayjs.extend(relativeTime)
 export default function Job({ job }) {
 
     const { auth } = usePage().props;
-    const [truncateDescrition, setTruncateDescription] = useState(true);
+    const [isShowingMore, setIsShowingMore] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -65,14 +65,15 @@ export default function Job({ job }) {
                                 Posted {dayjs(job.created_at).fromNow()}
                                 - {status(job.status)}
                             </small>
-                            <p className='mt-6 whitespace-pre-line'>{truncateDescrition ? truncate(job.description) : job.description}</p>
+                            <p className='mt-6 whitespace-pre-line'>{isShowingMore ? job.description : truncate(job.description)}</p>
                             {job.description.length > 450 &&
                                 <span
-                                    onClick={e => setTruncateDescription(!truncateDescrition)}
+                                    onClick={e => setIsShowingMore(!isShowingMore)}
                                     className='font-bold text-indigo-700 hover:underline hover:cursor-pointer'
                                 >
-                                    {truncateDescrition ? "More" : "Less"}
-                                </span>}
+                                    {isShowingMore ? "Less" : "More"}
+                                </span>
+                            }
 
                             <div className='mt-4'>
                                 {job.skills.map((skill) => {
