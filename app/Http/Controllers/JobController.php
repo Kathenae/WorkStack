@@ -21,6 +21,8 @@ class JobController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Job::class);
+
         return Inertia::render('Jobs/Index', [
             'jobs' => Job::with(['skills', 'user:id,name,email'])->latest()->get(),
         ]);
@@ -33,6 +35,8 @@ class JobController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', Job::class);
+
         return Inertia::render('Jobs/Create', [
             'skills' => Skill::all(),
         ]);
@@ -46,6 +50,8 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', Job::class);
+
         $validatedJob = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:5000',
@@ -71,6 +77,8 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
+        $this->authorize('view', $job);
+
         //
     }
 
@@ -82,6 +90,8 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
+        $this->authorize('update', $job);
+
         return Inertia::render('Jobs/Edit', [
             'job' => $job->load('skills'),
             'skills' => Skill::all(),
@@ -97,6 +107,7 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
+        $this->authorize('update', $job);
 
         $validatedData = $request->validate([
             'title' => 'string|max:255',
