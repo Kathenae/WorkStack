@@ -6,7 +6,7 @@ import Dropdown from "./Dropdown";
 import DangerButton from "./DangerButton";
 import Modal from "./Modal";
 import SecondaryButton from "./SecondaryButton";
-import { router, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 
 dayjs.extend(relativeTime)
 
@@ -55,7 +55,7 @@ export default function Job({ job }) {
                     <div className="bg-white overflow-hidden relative shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
                             <h2 className='font-semibold text-xl leading-tight mt-6'>
-                                <a href="" className='hover:underline hover:text-indigo-700'>{job.title}</a>
+                                <Link href={route('jobs.show', job.id)} className='hover:underline hover:text-indigo-700'>{job.title}</Link>
                             </h2>
                             <small className='text-gray-400 text-sm mt-3'>
                                 {job.type == 'fixed_price' ? "Fixed Price" : "Hourly"}
