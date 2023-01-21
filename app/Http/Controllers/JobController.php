@@ -22,7 +22,7 @@ class JobController extends Controller
     public function index()
     {
         return Inertia::render('Jobs/Index', [
-            'jobs' => Job::with('skills')->latest()->get(),
+            'jobs' => Job::with(['skills', 'user:id,name,email'])->latest()->get(),
         ]);
     }
 
