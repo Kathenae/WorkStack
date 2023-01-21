@@ -6,15 +6,16 @@ import Dropdown from "./Dropdown";
 import DangerButton from "./DangerButton";
 import Modal from "./Modal";
 import SecondaryButton from "./SecondaryButton";
-import { router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 
 dayjs.extend(relativeTime)
 
 export default function Job({ job }) {
 
-    const [truncateDescrition, setTruncateDescription] = useState(true)
-    const [showDeleteModal, setShowDeleteModal] = useState(false)
-    const [isDeleting, setIsDeleting] = useState(false)
+    const { auth } = usePage().props;
+    const [truncateDescrition, setTruncateDescription] = useState(true);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const truncate = (text, length = 450) => {
         if (text.length <= length) {
@@ -24,7 +25,7 @@ export default function Job({ job }) {
         const new_text = text.slice(0, length);
         const lastSpaceIndex = new_text.lastIndexOf(" ");
         return new_text.slice(0, lastSpaceIndex) + "...";
-    }
+    };
 
     const status = (status) => {
         let extraClasses = {
@@ -87,12 +88,16 @@ export default function Job({ job }) {
                                     </button>
                                 </Dropdown.Trigger>
                                 <Dropdown.Content>
-                                    <Dropdown.Link href={route('jobs.edit', job.id)}>
-                                        <i className="fi fi-rs-edit ml-2"></i> Edit
-                                    </Dropdown.Link>
-                                    <Dropdown.Button onClick={e => setShowDeleteModal(!showDeleteModal)}>
-                                        <span className="text-red-600"><i className="fi fi-rs-trash ml-2"></i> Delete</span>
-                                    </Dropdown.Button>
+                                    {job.user.id == auth.user.id &&
+                                        <>
+                                            <Dropdown.Link href={route('jobs.edit', job.id)}>
+                                                <i className="fi fi-rs-edit ml-2"></i> Edit
+                                            </Dropdown.Link>
+                                            <Dropdown.Button onClick={e => setShowDeleteModal(!showDeleteModal)}>
+                                                <span className="text-red-600"><i className="fi fi-rs-trash ml-2"></i> Delete</span>
+                                            </Dropdown.Button>
+                                        </>
+                                    }
                                     <Dropdown.Button onClick={e => alert('Job Post Reported')}>
                                         <span className="text-red-600"><i className="fi fi-rs-comment-exclamation ml-2"></i> Report</span>
                                     </Dropdown.Button>
