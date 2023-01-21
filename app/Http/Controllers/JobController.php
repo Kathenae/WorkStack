@@ -110,7 +110,7 @@ class JobController extends Controller
 
         $job->update($validatedData);
         $job->skills()->sync($skills);
-        return redirect(route('jobs.index'));
+        return redirect(route('jobs.index'), 303);
     }
 
     /**
@@ -122,6 +122,6 @@ class JobController extends Controller
     public function destroy(Job $job)
     {
         $job->delete();
-        return redirect(route('jobs.index'));
+        return redirect(route('jobs.index'), 303);
     }
 }
