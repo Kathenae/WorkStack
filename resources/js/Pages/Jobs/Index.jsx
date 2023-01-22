@@ -3,8 +3,31 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import { useState } from 'react';
 
 export default function Index({ jobs, auth, errors }) {
+    const [searchTerm, setSearchTerm] = useState('')
+    const [filteredJobs, setFilteredJobs] = useState(jobs)
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value)
+
+        const includesSearchTerm = (text) => {
+            return text.toLocaleLowerCase().includes(searchTerm.toLocaleLowerCase())
+        }
+
+        const filterJob = (job) => {
+            return includesSearchTerm(job.title) || job.skills.filter(skill => includesSearchTerm(skill.name)).length != 0
+        }
+
+        setFilteredJobs(jobs.filter(job => filterJob(job)))
+    }
+
+    const handleClear = (e) => {
+        setSearchTerm('')
+        setFilteredJobs(jobs);
+    }
+
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -17,14 +40,16 @@ export default function Index({ jobs, auth, errors }) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900 flex">
-                            <input type="text" placeholder='Search...' className='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm grow' />
-                            <PrimaryButton className='flex-none mx-4'>Search</PrimaryButton>
+                            <input value={searchTerm} onChange={handleSearch} type="text" placeholder='Search...' className='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm grow' />
+                            <PrimaryButton className='flex-none mx-4' onClick={handleClear}>
+                                {searchTerm == '' ? 'Search' : 'Clear'}
+                            </PrimaryButton>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {jobs.map((job) => {
+            {filteredJobs.map((job) => {
                 return <Job id={job.id} key={job.id} job={job} />
             })}
         </AuthenticatedLayout>
