@@ -89,7 +89,7 @@ export default function Job({ job }) {
                                     </button>
                                 </Dropdown.Trigger>
                                 <Dropdown.Content>
-                                    {job.user.id == auth.user.id &&
+                                    {auth.user && job.user.id == auth.user.id &&
                                         <>
                                             <Dropdown.Link href={route('jobs.edit', job.id)}>
                                                 <i className="fi fi-rs-edit ml-2"></i> Edit
