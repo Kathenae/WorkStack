@@ -18,11 +18,11 @@ class Proposal extends Model
 
     public function job()
     {
-        $this->belongsTo(Job::class);
+        return $this->belongsTo(Job::class);
     }
 
-    public function owner()
+    public function user()
     {
-        $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
 }
