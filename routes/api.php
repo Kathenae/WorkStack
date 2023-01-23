@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/skills/sync', function (Request $request) {
+Route::middleware('auth:sanctum')->post('/skills/sync', function (Request $request) {
     $skill = Skill::where('name', '=', $request->name)->first();
 
     if ($skill == null) {
