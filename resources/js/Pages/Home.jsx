@@ -254,7 +254,7 @@ export default function Dashboard(props) {
                     <div className="mt-32 mb-44 overflow-hidden sm:rounded-lg">
                         <div className="">
                             <h3 className='text-4xl text-gray-800 font-bold font-serif mb-2'>Built to last</h3>
-                            <p>WorkStack was built the latest most robust technologies</p>
+                            <p>We use reliable and proven technology for delivering the best experience:</p>
                         </div>
                         <div className="grid mt-8 grid-cols-1 md:grid-cols-2">
                             <div className="p-6 bg-white border-gray-200">
