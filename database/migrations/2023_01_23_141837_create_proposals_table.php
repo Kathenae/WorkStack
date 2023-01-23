@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('coverLetter');
             $table->double('price');
             $table->enum('status', ['accepted', 'rejected'])->default(null);
-            $table->foreignId('user_id')->references('users')->cascadeOnDelete();
-            $table->foreignId('job_id')->references('jobs')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('job_id')->constrained('jobs')->cascadeOnDelete();
             $table->timestamps();
         });
     }
