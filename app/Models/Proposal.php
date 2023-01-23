@@ -9,6 +9,13 @@ class Proposal extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'coverLetter',
+        'price',
+        'user_id',
+        'job_id',
+    ];
+
     public function job()
     {
         $this->belongsTo(Job::class);
