@@ -15,4 +15,9 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(true);
     }
+
+    public function test_that_true_is_equal()
+    {
+        $this->assertEquals('Hello World', 'Hello World');
+    }
 }
