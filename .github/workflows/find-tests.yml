@@ -7,4 +7,4 @@ jobs:
     steps:
     - name: Check for tests
       run: |
-        git diff --name-only ${GITHUB_BASE_REF}...HEAD | grep -E ".*(Test\.php)$" || (echo "Tests not found in the pull request" && exit 1)
+        git diff --index --name-only ${GITHUB_BASE_REF}...HEAD | grep -E ".*(Test\.php)$" || (echo "Tests not found in the pull request" && exit 1)
