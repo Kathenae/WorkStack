@@ -3,7 +3,7 @@ import Job from "@/Components/Job";
 import PrimaryButton from "@/Components/PrimaryButton";
 import SecondaryButton from "@/Components/SecondaryButton";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, router } from "@inertiajs/react";
 
 export default function Show({ job, proposal, auth, errors }) {
 
@@ -35,8 +35,8 @@ export default function Show({ job, proposal, auth, errors }) {
                             }
                             {auth.user && auth.user.id == proposal.user.id &&
                                 <div className="space-x-2">
-                                    <PrimaryButton>Edit</PrimaryButton>
-                                    <DangerButton>Delete</DangerButton>
+                                    <PrimaryButton onClick={e => router.get(route('proposals.edit', proposal.id))}>Edit</PrimaryButton>
+                                    <DangerButton onClick={e => router.delete(route('proposals.destroy', proposal.id))}>Delete</DangerButton>
                                 </div>
                             }
                         </div>
