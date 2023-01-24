@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProposalController;
+use App\Models\Proposal;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -28,6 +30,8 @@ Route::get('/dashboard', function () {
 Route::resource('jobs', JobController::class);
 
 Route::middleware('auth')->group(function () {
+    Route::resource('jobs.proposals', ProposalController::class)->only(['index', 'create', 'store']);
+    Route::resource('proposals', ProposalController::class)->except(['index', 'create', 'store']);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
