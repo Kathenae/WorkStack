@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Models\Proposal;
+use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -14,9 +15,14 @@ class ProposalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Job $job)
     {
-        //
+        $this->authorize('viewAny', [Proposal::class, $job]);
+
+        return Inertia::render('Proposals/Index', [
+            'proposals' => $job->proposals()->with(),
+            'job' => $job
+        ]);
     }
 
     /**
@@ -26,7 +32,9 @@ class ProposalController extends Controller
      */
     public function create(Job $job)
     {
-        return Inertia('Proposals/Create', [
+        $this->authorize('create', [Proposal::class, $job]);
+
+        return Inertia::render('Proposals/Create', [
             'job' => $job->load('skills:id,name')
         ]);
     }
@@ -39,6 +47,8 @@ class ProposalController extends Controller
      */
     public function store(Request $request, Job $job)
     {
+        $this->authorize('create', [Proposal::class, $job]);
+
         $validatedData = $request->validate([
             'coverLetter' => 'required|string|min:50|max:4000',
             'price' => 'required|numeric|max:5000',
@@ -51,8 +61,7 @@ class ProposalController extends Controller
             'user_id' => $user->id
         ]);
 
-        return redirect()->route('jobs.proposals.show', [
-            'job' => $job->id,
+        return redirect()->route('proposals.show', [
             'proposal' => $proposal->id,
         ]);
     }
@@ -63,11 +72,13 @@ class ProposalController extends Controller
      * @param  \App\Models\Proposal  $proposal
      * @return \Illuminate\Http\Response
      */
-    public function show(Job $job, Proposal $proposal)
+    public function show(Proposal $proposal)
     {
+        $this->authorize('view', $proposal);
+
         return Inertia::render('Proposals/Show', [
             'proposal' => $proposal->load('user'),
-            'job' => $job->load(['skills', 'user'])
+            'job' => $proposal->job->load(['skills', 'user'])
         ]);
     }
 
@@ -77,9 +88,14 @@ class ProposalController extends Controller
      * @param  \App\Models\Proposal  $proposal
      * @return \Illuminate\Http\Response
      */
-    public function edit(Job $job, Proposal $proposal)
+    public function edit(Proposal $proposal)
     {
-        //
+        $this->authorize('update', $proposal);
+
+        return Inertia::render('Proposals/Edit', [
+            'proposal' => $proposal->load('user'),
+            'job' => $proposal->job->load(['skills', 'user'])
+        ]);
     }
 
     /**
@@ -89,9 +105,18 @@ class ProposalController extends Controller
      * @param  \App\Models\Proposal  $proposal
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Job $job, Proposal $proposal)
+    public function update(Request $request, Proposal $proposal)
     {
-        //
+        $this->authorize('update', $proposal);
+
+        $validatedData = $request->validate([
+            'coverLetter' => 'required|string|min:50|max:4000',
+            'price' => 'required|numeric|max:5000',
+        ]);
+
+        $proposal->update($validatedData);
+
+        return redirect()->route('proposals.show', ['proposal' => $proposal->id]);
     }
 
     /**
@@ -102,6 +127,9 @@ class ProposalController extends Controller
      */
     public function destroy(Proposal $proposal)
     {
-        //
+        $this->authorize('delete', $proposal);
+        $proposal->delete();
+
+        return redirect()->route('jobs.show', $proposal->job->id);
     }
 }
