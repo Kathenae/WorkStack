@@ -1,6 +1,7 @@
-import Job from '@/Components/Job';
+import Card from '@/Components/Card';
+import Container from '@/Components/Container';
+import JobCard from '@/Components/JobCard';
 import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
@@ -36,22 +37,20 @@ export default function Index({ jobs, auth, errors }) {
         >
             <Head title="Find Jobs" />
 
-            <div className="pt-12 pb-6">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 text-gray-900 flex">
-                            <input value={searchTerm} onChange={handleSearch} type="text" placeholder='Search...' className='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm grow' />
-                            <PrimaryButton className='flex-none mx-4' onClick={handleClear}>
-                                {searchTerm == '' ? 'Search' : 'Clear'}
-                            </PrimaryButton>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <Container>
+                <Card>
+                    <Card.Content className='p-6 text-gray-900 flex'>
+                        <input value={searchTerm} onChange={handleSearch} type="text" placeholder='Search...' className='border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm grow' />
+                        <PrimaryButton className='flex-none mx-4' onClick={handleClear}>
+                            {searchTerm == '' ? 'Search' : 'Clear'}
+                        </PrimaryButton>
+                    </Card.Content>
+                </Card>
 
-            {filteredJobs.map((job) => {
-                return <Job id={job.id} key={job.id} job={job} />
-            })}
+                {filteredJobs.map((job) => {
+                    return <JobCard id={job.id} key={job.id} job={job} />
+                })}
+            </Container>
         </AuthenticatedLayout>
     );
 }
