@@ -44,6 +44,15 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_display_non_existent_job_detail_page()
+    {
+        $response = $this->get(route('jobs.show', 697968));
+        $response->assertNotFound();
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_can_display_job_create_page()
     {
         $user = User::factory()->create();
