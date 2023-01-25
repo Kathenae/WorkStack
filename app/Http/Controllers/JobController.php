@@ -53,8 +53,8 @@ class JobController extends Controller
         $this->authorize('create', Job::class);
 
         $validatedJob = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string|max:5000',
+            'title' => 'required|string|min:5|max:255',
+            'description' => 'required|string|min:5|max:5000',
             'min_price' => 'required|numeric|min:0',
             'max_price' => 'required|numeric|min:0|gt:min_price',
             'type' => 'required|in:hourly,fixed_price'
