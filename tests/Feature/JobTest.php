@@ -99,6 +99,26 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_create_job_if_unauthorized()
+    {
+        // Try to submit job data without being unauthorized
+        $response = $this->post(route('jobs.store'), [
+            'title' => 'New Job',
+            'description' => 'New Job Description',
+            'min_price' => 20.0,
+            'max_price' => 40.0,
+            'type' => 'hourly',
+            'status' => 'open',
+            'skills' => [1, 2, 3],
+        ]);
+
+        // Check if redirected to login page
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_can_display_job_edit_page()
     {
         $user = User::factory()->create();
