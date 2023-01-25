@@ -57,7 +57,8 @@ class JobController extends Controller
             'description' => 'required|string|min:5|max:5000',
             'min_price' => 'required|numeric|min:0',
             'max_price' => 'required|numeric|min:0|gt:min_price',
-            'type' => 'required|in:hourly,fixed_price'
+            'type' => 'required|in:hourly,fixed_price',
+            'skills' => 'required|array|exists:skills,id',
         ]);
 
         $skills = $request->input('skills');
@@ -117,6 +118,7 @@ class JobController extends Controller
             'min_price' => 'numeric|min:0',
             'max_price' => 'numeric|min:0|gt:min_price',
             'type' => 'in:hourly,fixed_price',
+            'skills' => 'array|exists:skills,id',
         ]);
 
         $skills = $request->input('skills');
