@@ -17,9 +17,9 @@ class ProposalPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user, Job $proposal)
+    public function viewAny(User $user, Job $job)
     {
-        $isJobOwner = $user->id  == $proposal->job->user->id;
+        $isJobOwner = $user->id == $job->user->id;
         return $isJobOwner;
     }
 
