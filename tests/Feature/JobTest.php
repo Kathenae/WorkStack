@@ -124,6 +124,27 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_create_a_job_with_non_existant_skills()
+    {
+        $user = User::factory()->create();
+
+        $new_job = [
+            'title' => 'New Job',
+            'description' => 'New Job Description',
+            'min_price' => 20.0,
+            'max_price' => 40.0,
+            'type' => 'hourly',
+            'status' => 'open',
+            'skills' => [155, 23, 53],
+        ];
+        $response = $this->actingAs($user)->post(route('jobs.store'), $new_job);
+
+        $this->assertDatabaseCount('jobs', 0);
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_cannot_create_job_if_unauthorized()
     {
         // Try to submit job data without being unauthorized
