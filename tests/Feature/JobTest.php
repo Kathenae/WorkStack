@@ -182,6 +182,25 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_update_another_users_job()
+    {
+        // A user creates a job
+        $user = User::factory()->create();
+        $job = Job::factory()->create(['user_id' => $user->id]);
+
+        // Another one tries to update that job
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->patch(route('jobs.update', $job->id), [
+            'title' => 'Updated Job Title',
+            'description' => 'Updated Job Description',
+        ]);
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_can_delete_job()
     {
         $user = User::factory()->create();
