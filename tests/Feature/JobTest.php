@@ -220,4 +220,21 @@ class JobTest extends TestCase
         $this->assertDatabaseEmpty('jobs');
         $response->assertRedirect(route('jobs.index'));
     }
+
+    /**
+     * @group JobFeatures
+     */
+    public function test_cannot_delete_another_users_job()
+    {
+        // A user creates a job
+        $user = User::factory()->create();
+        $job = Job::factory()->create(['user_id' => $user->id]);
+
+        // Another one tries to delete it
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->delete(route('jobs.destroy', $job->id));
+
+        // Check if forbiden
+        $response->assertForbidden();
+    }
 }
