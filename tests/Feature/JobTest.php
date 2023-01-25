@@ -63,6 +63,15 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_access_job_creation_page_if_unauthenticated()
+    {
+        $response = $this->get(route('jobs.create'));
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_can_create_job()
     {
         $user = User::factory()->create();
