@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->text('coverLetter');
             $table->double('price');
-            $table->enum('status', ['accepted', 'rejected'])->default(null);
+            $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('job_id')->constrained('jobs')->cascadeOnDelete();
             $table->timestamps();
