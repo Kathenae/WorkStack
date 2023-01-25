@@ -44,11 +44,29 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_display_non_existent_job_detail_page()
+    {
+        $response = $this->get(route('jobs.show', 697968));
+        $response->assertNotFound();
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_can_display_job_create_page()
     {
         $user = User::factory()->create();
         $response = $this->actingAs($user)->get(route('jobs.create'));
         $response->assertOk();
+    }
+
+    /**
+     * @group JobFeatures
+     */
+    public function test_cannot_access_job_creation_page_if_unauthenticated()
+    {
+        $response = $this->get(route('jobs.create'));
+        $response->assertRedirect(route('login'));
     }
 
     /**
@@ -81,6 +99,72 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_create_a_job_with_invalid_fields()
+    {
+        $user = User::factory()->create();
+        Skill::insert([
+            ['name' => 'Skill 1'],
+            ['name' => 'Skill 2'],
+            ['name' => 'Skill 3'],
+        ]);
+
+        $new_job = [
+            'title' => '', // required, string, min 10 characters, max 255 characters
+            'description' => '', // required, min 50 characters, max 5000 characters
+            'min_price' => 'very low', // required, must be number, less the max_price
+            'max_price' => 'ver high', // required, must be a number, greater then min_price
+            'type' => 'in chunks', // required, must be either 'hourly' or 'fixed'
+            'skills' => [1, 2, 3],
+        ];
+        $response = $this->actingAs($user)->post(route('jobs.store'), $new_job);
+
+        $response->assertSessionHasErrors(['title', 'description', 'type', 'min_price', 'max_price', 'type'],);
+    }
+
+    /**
+     * @group JobFeatures
+     */
+    public function test_cannot_create_a_job_with_non_existant_skills()
+    {
+        $user = User::factory()->create();
+
+        $new_job = [
+            'title' => 'New Job',
+            'description' => 'New Job Description',
+            'min_price' => 20.0,
+            'max_price' => 40.0,
+            'type' => 'hourly',
+            'status' => 'open',
+            'skills' => [155, 23, 53],
+        ];
+        $response = $this->actingAs($user)->post(route('jobs.store'), $new_job);
+
+        $this->assertDatabaseCount('jobs', 0);
+    }
+
+    /**
+     * @group JobFeatures
+     */
+    public function test_cannot_create_job_if_unauthorized()
+    {
+        // Try to submit job data without being unauthorized
+        $response = $this->post(route('jobs.store'), [
+            'title' => 'New Job',
+            'description' => 'New Job Description',
+            'min_price' => 20.0,
+            'max_price' => 40.0,
+            'type' => 'hourly',
+            'status' => 'open',
+            'skills' => [1, 2, 3],
+        ]);
+
+        // Check if redirected to login page
+        $response->assertRedirect(route('login'));
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_can_display_job_edit_page()
     {
         $user = User::factory()->create();
@@ -94,6 +178,22 @@ class JobTest extends TestCase
         ]);
         $response = $this->actingAs($user)->get(route('jobs.edit', $job->id));
         $response->assertOk();
+    }
+
+    /**
+     * @group JobFeatures
+     */
+    public function test_cannot_edit_another_users_job()
+    {
+        // A user creates a job
+        $user = User::factory()->create();
+        $job = Job::factory()->create(['user_id' => $user->id]);
+
+        // Another tries to view the edit form for that job
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('jobs.edit', $job->id));
+
+        $response->assertForbidden();
     }
 
     /**
@@ -128,6 +228,25 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_update_another_users_job()
+    {
+        // A user creates a job
+        $user = User::factory()->create();
+        $job = Job::factory()->create(['user_id' => $user->id]);
+
+        // Another one tries to update that job
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->patch(route('jobs.update', $job->id), [
+            'title' => 'Updated Job Title',
+            'description' => 'Updated Job Description',
+        ]);
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_can_delete_job()
     {
         $user = User::factory()->create();
@@ -146,5 +265,22 @@ class JobTest extends TestCase
         // Check if we deleted the job
         $this->assertDatabaseEmpty('jobs');
         $response->assertRedirect(route('jobs.index'));
+    }
+
+    /**
+     * @group JobFeatures
+     */
+    public function test_cannot_delete_another_users_job()
+    {
+        // A user creates a job
+        $user = User::factory()->create();
+        $job = Job::factory()->create(['user_id' => $user->id]);
+
+        // Another one tries to delete it
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->delete(route('jobs.destroy', $job->id));
+
+        // Check if forbiden
+        $response->assertForbidden();
     }
 }
