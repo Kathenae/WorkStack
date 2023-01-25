@@ -137,6 +137,22 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_edit_another_users_job()
+    {
+        // A user creates a job
+        $user = User::factory()->create();
+        $job = Job::factory()->create(['user_id' => $user->id]);
+
+        // Another tries to view the edit form for that job
+        $user = User::factory()->create();
+        $response = $this->actingAs($user)->get(route('jobs.edit', $job->id));
+
+        $response->assertForbidden();
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_can_update_job()
     {
         $user = User::factory()->create();
