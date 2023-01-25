@@ -99,6 +99,31 @@ class JobTest extends TestCase
     /**
      * @group JobFeatures
      */
+    public function test_cannot_create_a_job_with_invalid_fields()
+    {
+        $user = User::factory()->create();
+        Skill::insert([
+            ['name' => 'Skill 1'],
+            ['name' => 'Skill 2'],
+            ['name' => 'Skill 3'],
+        ]);
+
+        $new_job = [
+            'title' => '', // required, string, min 10 characters, max 255 characters
+            'description' => '', // required, min 50 characters, max 5000 characters
+            'min_price' => 'very low', // required, must be number, less the max_price
+            'max_price' => 'ver high', // required, must be a number, greater then min_price
+            'type' => 'in chunks', // required, must be either 'hourly' or 'fixed'
+            'skills' => [1, 2, 3],
+        ];
+        $response = $this->actingAs($user)->post(route('jobs.store'), $new_job);
+
+        $response->assertSessionHasErrors(['title', 'description', 'type', 'min_price', 'max_price', 'type'],);
+    }
+
+    /**
+     * @group JobFeatures
+     */
     public function test_cannot_create_job_if_unauthorized()
     {
         // Try to submit job data without being unauthorized
