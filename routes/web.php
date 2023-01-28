@@ -4,8 +4,8 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProposalController;
 use App\Models\Proposal;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 /*
@@ -23,8 +23,11 @@ Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+Route::get('/dashboard', function (Request $request) {
+    return Inertia::render('Dashboard', [
+        'jobs' => $request->user()->jobs,
+        'proposals' => Proposal::where('user_id', '=', $request->user()->id)->with(['job'])->get()
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('jobs', JobController::class);
