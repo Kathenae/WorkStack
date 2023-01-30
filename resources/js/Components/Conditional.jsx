@@ -9,7 +9,7 @@ const Conditional = ({ children, showIf, nested }) => {
         </>
     }
 
-    return <CondtionalContext.Provider value={showIf}>
+    return <CondtionalContext.Provider value={{ showIf }}>
         {children}
     </CondtionalContext.Provider>
 }
@@ -24,7 +24,7 @@ Conditional.True = ({ children }) => {
 Conditional.False = ({ children }) => {
     const { showIf } = useContext(CondtionalContext)
     return <>
-        {!showIf && children}
+        {(showIf == false) && children}
     </>
 }
 
