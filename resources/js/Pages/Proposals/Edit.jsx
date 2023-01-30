@@ -2,7 +2,7 @@ import Card from '@/Components/Card';
 import Container from '@/Components/Container';
 import ProposalForm from '@/Components/ProposalForm';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, useForm } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import React from "react";
 
 export default function Edit({ proposal, auth, errors: auth_errors }) {
@@ -11,6 +11,11 @@ export default function Edit({ proposal, auth, errors: auth_errors }) {
     const handleSubmit = (event) => {
         event.preventDefault()
         form.put(route('proposals.update', proposal.id))
+    }
+
+    const handleCancel = (event) => {
+        event.preventDefault()
+        router.get(route('proposals.show', proposal.id))
     }
 
     return (
@@ -23,7 +28,7 @@ export default function Edit({ proposal, auth, errors: auth_errors }) {
             <Container>
                 <Card>
                     <Card.Content>
-                        <ProposalForm form={form} onSubmit={handleSubmit} />
+                        <ProposalForm form={form} onSubmit={handleSubmit} onCancel={handleCancel} />
                     </Card.Content>
                 </Card>
             </Container>
