@@ -5,6 +5,7 @@ import JobContent from '@/Components/JobContent';
 import PrimaryButton from '@/Components/PrimaryButton';
 import Card from '@/Components/Card';
 import Container from '@/Components/Container';
+import Conditional from '@/Components/Conditional';
 
 
 export default function Show({ job, auth, errors: auth_errors }) {
@@ -25,9 +26,17 @@ export default function Show({ job, auth, errors: auth_errors }) {
                         </div>
                     </Card.Content>
                     <Card.Options>
-                        <Card.OptionLink>
-
-                        </Card.OptionLink>
+                        <Conditional showIf={auth.user && job.user.id == auth.user.id}>
+                            <Card.OptionLink href={route('jobs.edit', job.id)}>
+                                <i className="fi fi-rs-edit ml-2"></i> Edit
+                            </Card.OptionLink>
+                            <Card.OptionButton onClick={e => setShowDeleteModal(!showDeleteModal)}>
+                                <span className="text-red-600"><i className="fi fi-rs-trash ml-2"></i> Delete</span>
+                            </Card.OptionButton>
+                        </Conditional>
+                        <Card.OptionButton onClick={e => alert('Job Post Reported')}>
+                            <span className="text-red-600"><i className="fi fi-rs-comment-exclamation ml-2"></i> Report</span>
+                        </Card.OptionButton>
                     </Card.Options>
                 </Card>
             </Container>
