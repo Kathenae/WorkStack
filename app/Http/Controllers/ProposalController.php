@@ -20,7 +20,7 @@ class ProposalController extends Controller
         $this->authorize('viewAny', [Proposal::class, $job]);
 
         return Inertia::render('Proposals/Index', [
-            'proposals' => $job->proposals(),
+            'proposals' => $job->proposals->load(['user:id,email,name']),
             'job' => $job
         ]);
     }
