@@ -22,7 +22,7 @@ export default function Dashboard({ auth, errors, jobs, proposals }) {
                 <Card className='mb-4 py-0'>
                     <Card.Content>
                         <div className="flex justify-between">
-                            <h2 className="font-semibold text-xl text-gray-800 leading-tight">Jobs ({jobs.length})</h2>
+                            <h2 className="font-semibold text-xl text-gray-800 leading-tight">My Jobs ({jobs.length})</h2>
                             <button onClick={e => setIsJobListOpen(!isJobListOpen)}><i className={"fi fi-rs-angle-" + (isJobListOpen ? "down" : "right")}></i></button>
                         </div>
                         <Conditional showIf={isJobListOpen}>
@@ -35,7 +35,7 @@ export default function Dashboard({ auth, errors, jobs, proposals }) {
                 <Card className='mb-4 mt-0 py-0'>
                     <Card.Content>
                         <div className="flex justify-between">
-                            <h2 className="font-semibold text-xl text-gray-800 leading-tight">Proposals ({proposals.length})</h2>
+                            <h2 className="font-semibold text-xl text-gray-800 leading-tight">My Proposals ({proposals.length})</h2>
                             <button onClick={e => setisProposalListOpen(!isProposalListOpen)}><i className={"fi fi-rs-angle-" + (isProposalListOpen ? "down" : "right")}></i></button>
                         </div>
                         <Conditional showIf={isProposalListOpen}>
