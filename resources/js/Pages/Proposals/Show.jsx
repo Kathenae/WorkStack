@@ -10,6 +10,21 @@ import { Head, Link, router } from "@inertiajs/react";
 
 export default function Show({ job, proposal, auth, errors }) {
 
+    const status = (status) => {
+        let extraClasses = {
+            'pending': 'text-indigo-500',
+            'declined': 'text-red-500',
+            'accepted': 'text-green-400',
+        }
+
+        return (
+            <a
+                href='/skills/frontend'
+                className={'bg-transparent font-extrabold cursor-pointer rounded-xl ' + extraClasses[status]}>
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+            </a>)
+    }
+
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -23,7 +38,7 @@ export default function Show({ job, proposal, auth, errors }) {
                         <div>
                             <h2 className="font-semibold text-2xl text-gray-800 leading-tight">Proposal - {job.title}</h2>
                             <small className='text-gray-400 text-sm mt-3'>
-                                By {proposal.user.name} - Price - ${proposal.price}
+                                By {proposal.user.name} - Price - ${proposal.price} - {status(proposal.status)}
                             </small>
                         </div>
 
