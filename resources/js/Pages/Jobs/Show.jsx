@@ -8,8 +8,7 @@ import Container from '@/Components/Container';
 import Conditional from '@/Components/Conditional';
 
 
-export default function Show({ job, auth, errors: auth_errors }) {
-
+export default function Show({ job, userProposal, auth, errors: auth_errors }) {
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -22,7 +21,14 @@ export default function Show({ job, auth, errors: auth_errors }) {
                     <Card.Content>
                         <JobContent job={job} />
                         <div className="mt-12">
-                            <PrimaryButton onClick={e => router.get(route('jobs.proposals.create', job.id))}>Apply</PrimaryButton>
+                            <Conditional showIf={userProposal == null} nested={true}>
+                                <Conditional.True>
+                                    <PrimaryButton onClick={e => router.get(route('jobs.proposals.create', job.id))}>Apply</PrimaryButton>
+                                </Conditional.True>
+                                <Conditional.False>
+                                    <PrimaryButton onClick={e => router.get(route('proposals.show', userProposal.id))}>Proposal</PrimaryButton>
+                                </Conditional.False>
+                            </Conditional>
                         </div>
                     </Card.Content>
                     <Card.Options>
