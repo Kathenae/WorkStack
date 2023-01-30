@@ -21,7 +21,7 @@ class ProposalController extends Controller
 
         return Inertia::render('Proposals/Index', [
             'proposals' => $job->proposals->load(['user:id,email,name']),
-            'job' => $job
+            'job' => $job->load('skills')
         ]);
     }
 
