@@ -39,12 +39,21 @@ export default function Show({ job, proposal, auth, errors }) {
                                 <PrimaryButton>Accept</PrimaryButton>
                                 <SecondaryButton>Decline</SecondaryButton>
                             </Conditional>
-                            <Conditional showIf={auth.user && auth.user.id == proposal.user.id}>
-                                <PrimaryButton onClick={e => router.get(route('proposals.edit', proposal.id))}>Edit</PrimaryButton>
-                                <DangerButton onClick={e => router.delete(route('proposals.destroy', proposal.id))}>Delete</DangerButton>
-                            </Conditional>
                         </div>
                     </Card.Content>
+                    <Card.Options>
+                        <Conditional showIf={auth.user && proposal.user.id == auth.user.id}>
+                            <Card.OptionLink href={route('proposals.edit', proposal.id)}>
+                                <i className="fi fi-rs-edit ml-2"></i> Edit
+                            </Card.OptionLink>
+                            <Card.OptionButton>
+                                <span className="text-red-600"><i className="fi fi-rs-trash ml-2"></i> Delete</span>
+                            </Card.OptionButton>
+                        </Conditional>
+                        <Card.OptionButton onClick={e => alert('Job Post Reported')}>
+                            <span className="text-red-600"><i className="fi fi-rs-comment-exclamation ml-2"></i> Report</span>
+                        </Card.OptionButton>
+                    </Card.Options>
                 </Card>
             </Container>
         </AuthenticatedLayout>
