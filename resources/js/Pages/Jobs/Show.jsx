@@ -5,10 +5,10 @@ import JobContent from '@/Components/JobContent';
 import PrimaryButton from '@/Components/PrimaryButton';
 import Card from '@/Components/Card';
 import Container from '@/Components/Container';
+import Conditional from '@/Components/Conditional';
 
 
-export default function Show({ job, auth, errors: auth_errors }) {
-
+export default function Show({ job, userProposal, auth, errors: auth_errors }) {
     return (
         <AuthenticatedLayout
             auth={auth}
@@ -21,13 +21,35 @@ export default function Show({ job, auth, errors: auth_errors }) {
                     <Card.Content>
                         <JobContent job={job} />
                         <div className="mt-12">
-                            <PrimaryButton onClick={e => router.get(route('jobs.proposals.create', job.id))}>Apply</PrimaryButton>
+                            <Conditional showIf={job.user.id == auth.user.id} nested={true}>
+                                <Conditional.True>
+                                    <PrimaryButton onClick={e => router.get(route('jobs.proposals.index', job.id))}>View Proposals</PrimaryButton>
+                                </Conditional.True>
+                                <Conditional.False>
+                                    <Conditional showIf={userProposal == null} nested={true}>
+                                        <Conditional.True>
+                                            <PrimaryButton onClick={e => router.get(route('jobs.proposals.create', job.id))}>Apply</PrimaryButton>
+                                        </Conditional.True>
+                                        <Conditional.False>
+                                            <PrimaryButton onClick={e => router.get(route('proposals.show', userProposal.id))}>View Proposal</PrimaryButton>
+                                        </Conditional.False>
+                                    </Conditional>
+                                </Conditional.False>
+                            </Conditional>
                         </div>
                     </Card.Content>
                     <Card.Options>
-                        <Card.OptionLink>
-
-                        </Card.OptionLink>
+                        <Conditional showIf={auth.user && job.user.id == auth.user.id}>
+                            <Card.OptionLink href={route('jobs.edit', job.id)}>
+                                <i className="fi fi-rs-edit ml-2"></i> Edit
+                            </Card.OptionLink>
+                            <Card.OptionButton onClick={e => setShowDeleteModal(!showDeleteModal)}>
+                                <span className="text-red-600"><i className="fi fi-rs-trash ml-2"></i> Delete</span>
+                            </Card.OptionButton>
+                        </Conditional>
+                        <Card.OptionButton onClick={e => alert('Job Post Reported')}>
+                            <span className="text-red-600"><i className="fi fi-rs-comment-exclamation ml-2"></i> Report</span>
+                        </Card.OptionButton>
                     </Card.Options>
                 </Card>
             </Container>

@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Proposal::class);
     }
+
+    public function getProposal(Job $job)
+    {
+        return $this->proposals->where('job_id', '=', $job->id)->first();
+    }
 }

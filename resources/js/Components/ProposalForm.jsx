@@ -3,7 +3,7 @@ import InputLabel from "./InputLabel";
 import PrimaryButton from "./PrimaryButton";
 import SecondaryButton from "./SecondaryButton";
 
-export default function ProposalForm({ form, onSubmit }) {
+export default function ProposalForm({ form, onSubmit, onCancel }) {
     const { data, setData, processing, errors } = form;
 
     return (
@@ -36,7 +36,7 @@ export default function ProposalForm({ form, onSubmit }) {
 
             <div className="space-x-2">
                 <PrimaryButton className='mt-4' processing={processing}>Send</PrimaryButton>
-                <SecondaryButton className='mt-4' processing={processing}>Cancel</SecondaryButton>
+                <SecondaryButton className='mt-4' onClick={onCancel} processing={processing}>Cancel</SecondaryButton>
             </div>
         </form>
     )

@@ -1,7 +1,31 @@
-import React from "react";
+import React, { createContext, useContext } from "react";
 
-export default function Conditional({ children, showIf }) {
+const CondtionalContext = createContext()
+
+const Conditional = ({ children, showIf, nested }) => {
+    if (nested === undefined) {
+        return <>
+            {showIf && children}
+        </>
+    }
+
+    return <CondtionalContext.Provider value={{ showIf }}>
+        {children}
+    </CondtionalContext.Provider>
+}
+
+Conditional.True = ({ children }) => {
+    const { showIf } = useContext(CondtionalContext)
     return <>
         {showIf && children}
     </>
 }
+
+Conditional.False = ({ children }) => {
+    const { showIf } = useContext(CondtionalContext)
+    return <>
+        {(showIf == false) && children}
+    </>
+}
+
+export default Conditional
