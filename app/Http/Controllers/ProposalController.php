@@ -132,4 +132,28 @@ class ProposalController extends Controller
 
         return redirect()->route('jobs.show', $proposal->job->id);
     }
+
+    public function accept(Proposal $proposal)
+    {
+        $this->decide($proposal, 'accepted');
+        return redirect()->route('proposals.show', ['proposal' => $proposal->id]);
+    }
+
+    public function decline(Proposal $proposal)
+    {
+        $this->decide($proposal, 'rejected');
+        return redirect()->route('proposals.show', ['proposal' => $proposal->id]);
+    }
+
+    private function decide(Proposal $proposal, string $decision)
+    {
+        $proposal->status = $decision;
+        $proposal->save();
+
+        // TODO: Send email notification to user
+
+        if ($decision == 'accepted') {
+            // TODO: Create job contract?
+        }
+    }
 }
