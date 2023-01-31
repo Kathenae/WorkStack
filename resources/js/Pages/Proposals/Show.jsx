@@ -50,9 +50,9 @@ export default function Show({ job, proposal, auth, errors }) {
                         </div>
 
                         <div className="space-x-2">
-                            <Conditional showIf={auth.user && auth.user.id == job.user.id}>
-                                <PrimaryButton>Accept</PrimaryButton>
-                                <SecondaryButton>Decline</SecondaryButton>
+                            <Conditional showIf={auth.user && auth.user.id == job.user.id && proposal.status == 'pending'}>
+                                <PrimaryButton onClick={e => router.post(route('proposals.accept', proposal.id))}>Accept</PrimaryButton>
+                                <SecondaryButton onClick={e => router.post(route('proposals.decline', proposal.id))}>Decline</SecondaryButton>
                             </Conditional>
                         </div>
                     </Card.Content>
