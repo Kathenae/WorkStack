@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Models\Proposal;
+use App\Notifications\NewProposal;
 use App\Notifications\ProposalAccepted;
 use App\Notifications\ProposalRejected;
 use Illuminate\Auth\Middleware\Authorize;
@@ -62,6 +63,9 @@ class ProposalController extends Controller
             'job_id' => $job->id,
             'user_id' => $user->id
         ]);
+
+        // Notify the job owner
+        $job->user->notify(new NewProposal($proposal));
 
         return redirect()->route('proposals.show', [
             'proposal' => $proposal->id,
