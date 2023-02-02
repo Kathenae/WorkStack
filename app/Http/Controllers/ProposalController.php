@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Models\Proposal;
 use App\Notifications\ProposalAccepted;
+use App\Notifications\ProposalRejected;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -154,6 +155,8 @@ class ProposalController extends Controller
         if ($decision == 'accepted') {
             $proposal->user->notify(new ProposalAccepted($proposal));
             // TODO: Create job contract?
+        } else if ($decision == 'rejected') {
+            $proposal->user->notify(new ProposalRejected($proposal));
         }
     }
 }
