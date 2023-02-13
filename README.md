@@ -5,27 +5,27 @@
 ## Features Overview
 
 ### Main Features (MVP):
-- Job listing and posting
-- Search and hire freelancers
-- In-app messaging and communication
-- Safe and secure payment system
-- Rating and review system for freelancers
-- Progress tracking for projects
+- [x] Clients can Create and Manage Job
+- [x] Users Search and filter jobs 
+- [x] Freelancers can Create and Manage Proposals
+- [x] Clients can Accept or Decline job proposals
+- [x] Freelancers are notifiend of proposals acceptance/rejection
+- [ ] In-app messaging and communication
+- [ ] Live Interview Sessions
+- [ ] Rating and review system for freelancers
+- [ ] Safe and secure payment system
 
 ### Advanced Features:
-- Collaboration tools for team members
-- File sharing and storage
-- Time tracking and invoicing
-- Advanced search and filtering for freelancers
-- Automated project management and task assignment
-- Integration with other project management tools
-- Mobile app for on-the-go management
-- Advanced analytics and reporting
-- Option for clients to create a company profile
-- Option for freelancers to create a portfolio and showcase their work
-- Option for freelancers to bid on projects
-- Option to create a team of freelancers and manage them as a group
-- Option to create a project template for repetitive tasks
+- [ ] Collaboration tools for team members
+- [ ] File sharing and storage
+- [ ] Time tracking and invoicing
+- [ ] Advanced search and filtering for freelancers
+- [ ] Mobile app for on-the-go management
+- [ ] Option for clients to create a company profile
+- [ ] Option for freelancers to create a portfolio and showcase their work
+- [ ] Option for freelancers to bid on projects
+- [ ] Option to create a team of freelancers and manage them as a group
+- [ ] Option to create a project template for repetitive tasks
 
 ## Tech Stack (Laravel, Inertia/React, MySQL)
 
@@ -85,4 +85,4 @@ We're also going to need to setup Redis for queuing email notification and other
 
 3. Set the QUEUE_CONNECTION variable in the .env file to 'redis'. Then you can start the Laravel queue worker by running the following command `php artisan queue:work`
 
-4. If you're on linux you can install it by runningn `sudo apt install redis-server` on the terminal and start it by running `sudo systemctl start redis-server.service` or any equivalent commands depending on the distribution you're using
+4. If you're on linux you can install it by running `sudo apt install redis-server` on the terminal and start it by running `sudo systemctl start redis-server.service` or any equivalent commands depending on the distribution you're using
