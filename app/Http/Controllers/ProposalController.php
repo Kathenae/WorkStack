@@ -156,11 +156,20 @@ class ProposalController extends Controller
         $proposal->status = $decision;
         $proposal->save();
 
+
+        $notification = null;
         if ($decision == 'accepted') {
-            $proposal->user->notify(new ProposalAccepted($proposal));
+            $notification = new ProposalAccepted($proposal);
             // TODO: Create job contract?
         } else if ($decision == 'rejected') {
-            $proposal->user->notify(new ProposalRejected($proposal));
+            $notification = new ProposalRejected($proposal);
+        }
+
+        if ($notification != null) {
+            // Send the notification with a 2 minutes delay
+            $deliveryTime = now()->addMinutes(2);
+            $notification->delay($deliveryTime);
+            $proposal->user->notify($notification);
         }
     }
 }
