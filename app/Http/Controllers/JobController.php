@@ -79,10 +79,15 @@ class JobController extends Controller
     public function show(Job $job)
     {
         $this->authorize('view', $job);
+        $userProposal = null;
+
+        if (request()->user() !== null) {
+            $userProposal = request()->user()->getProposal($job);
+        }
 
         return Inertia::render('Jobs/Show', [
             'job' => $job->load(['skills', 'user:id,name,email']),
-            'userProposal' => request()->user()->getProposal($job)
+            'userProposal' => $userProposal
         ]);
     }
 
