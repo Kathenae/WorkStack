@@ -21,7 +21,7 @@ export default function Show({ job, userProposal, auth, errors: auth_errors }) {
                     <Card.Content>
                         <JobContent job={job} />
                         <div className="mt-12">
-                            <Conditional showIf={job.user.id == auth.user.id} nested={true}>
+                            <Conditional showIf={auth.user != null && job.user.id == auth.user.id} nested={true}>
                                 <Conditional.True>
                                     <PrimaryButton onClick={e => router.get(route('jobs.proposals.index', job.id))}>View Proposals</PrimaryButton>
                                 </Conditional.True>
