@@ -2,8 +2,6 @@
 
   Hi there, WorkStack is an upcoming project management platform that will connect businesses and individuals for remote collaboration on projects. Similar to Upwork, WorkStack will allow users to post job listings, search for and hire top talent, manage projects and communicate with team members in one centralized platform. Users will also be able to rate and review freelancers, and track progress on projects in real-time. WorkStack aims to make it easy for businesses and entrepreneurs to find and manage the right talent for their projects, and for freelancers to find new and exciting opportunities. With WorkStack, businesses will be able to easily scale their teams, and freelancers will be able to work on projects from anywhere in the world.
 
-## Features Overview
-
 ### Main Features (MVP):
 - [x] Clients can Create and Manage Job
 - [x] Users Search and filter jobs 
