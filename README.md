@@ -10,30 +10,14 @@
 - [x] Freelancers can Create and Manage Proposals
 - [x] Clients can Accept or Decline job proposals
 - [x] Freelancers are notifiend of proposals acceptance/rejection
-- [ ] In-app messaging and communication
-- [ ] Live Interview Sessions
-- [ ] Rating and review system for freelancers
-- [ ] Safe and secure payment system
-
-### Advanced Features:
-- [ ] Collaboration tools for team members
-- [ ] File sharing and storage
-- [ ] Time tracking and invoicing
-- [ ] Advanced search and filtering for freelancers
-- [ ] Mobile app for on-the-go management
-- [ ] Option for clients to create a company profile
-- [ ] Option for freelancers to create a portfolio and showcase their work
-- [ ] Option for freelancers to bid on projects
-- [ ] Option to create a team of freelancers and manage them as a group
-- [ ] Option to create a project template for repetitive tasks
 
 ## Tech Stack (Laravel, Inertia/React, MySQL)
 
-  WorkStack is being built using the Laravel framework, a free, open-source PHP web application framework that follows the model-view-controller (MVC) architectural pattern. Laravel provides a set of tools and features that make it easy for developers to build robust and scalable web applications and will be a perfect fit for a project of this scale.
+  WorkStack is built using the Laravel framework, a free, open-source PHP web application framework that follows the model-view-controller (MVC) architectural pattern. Laravel provides a set of tools and features that make it easy for developers to build robust and scalable web applications and will be a perfect fit for a project of this scale.
 
-  The frontend is being built using Inertia.js, a framework that allows developers to build single-page apps (SPAs) using classic server-side routing and controllers, but with the feel of a SPA. The use of Inertia.js will enable the application to provide a more app-like experience for the end-users, with seamless transitions between server-rendered pages.
+  The frontend is built using Inertia.js, a framework that allows developers to build single-page apps (SPAs) using classic server-side routing and controllers, but with the feel of a SPA. The use of Inertia.js will enable the application to provide a more app-like experience for the end-users, with seamless transitions between server-rendered pages.
 
-  The application will make use of a MySQL database to store and retrieve data, which is designed to handle a high volume of data and optimized for performance and scalability. The application will also integrate various third-party libraries and services, such as for example for the payment gateway, for the file storage, for the time tracking, etc, which will provide additional functionality and improve the user experience.
+  The application uses MySQL database to store and retrieve data, which is designed to handle a high volume of data and optimized for performance and scalability. The application will also integrate various third-party libraries and services, such as for example for the payment gateway, for the file storage, for the time tracking, etc, which will provide additional functionality and improve the user experience.
 
 ## How to Contribute?
   We welcome and appreciate any contributions to the WorkStack project. Whether you are a seasoned developer or just starting out, there are ways for you to get involved and help us make this project better.
@@ -77,7 +61,7 @@ If you're interested in contributing code to the project, we'd love to have your
 3. If you're on windows make sure to set MAIL_HOST variable in the .env file to 'localhost' since 'mailhog' isn't recognized as a proper hostname.
 
 ## Redis Setup:
-We're also going to need to setup Redis for queuing email notification and other jobs, so make sure you have it installed and running on your computer aswell:
+You will also going to need to setup Redis for queuing email notification and other jobs, so make sure you have it installed and running on your computer aswell:
 
 1. For windows, download the Redis zip file from https://github.com/microsoftarchive/redis/releases and extract it on a directory of your choice
 
